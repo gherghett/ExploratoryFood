@@ -1,0 +1,23 @@
+﻿@using Food.Web.Models
+@model List<RestaurantCardViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Restaurants</h1>
+    <div class="row">
+        @foreach (var restaurant in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="@restaurant.ImageUrl" class="card-img-top" alt="@restaurant.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@restaurant.Name</h5>
+                        <a href="/Restaurant/Details/@restaurant.Id" class="btn btn-primary">View Menu</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

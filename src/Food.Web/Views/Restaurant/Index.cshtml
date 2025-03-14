@@ -23,10 +23,11 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text"><strong>Price:</strong> $@item.Price</p>
-                        <form asp-action="Order" method="post">
+                        <a href="/Restaurant/Order/@item.Id" class="btn btn-primary">Order</a>
+                        @* <form asp-action="Order" method="post">
                             <input type="hidden" name="id" value="@item.Id" />
                             <button type="submit" class="btn btn-primary">Order</button>
-                        </form>
+                        </form> *@
                     </div>
                 </div>
             </div>

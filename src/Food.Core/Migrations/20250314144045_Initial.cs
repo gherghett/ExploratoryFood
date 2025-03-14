@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Food.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class ImagesForRestaurants : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,6 +17,7 @@ namespace Food.Core.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    CreationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CustomerInfo_Name = table.Column<string>(type: "TEXT", nullable: false),
                     CustomerInfo_Address = table.Column<string>(type: "TEXT", nullable: false),
                     CustomerInfo_PhoneNumber = table.Column<string>(type: "TEXT", nullable: false),

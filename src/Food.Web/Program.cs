@@ -2,8 +2,10 @@ using Microsoft.EntityFrameworkCore;
 // Mediator========
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection; //For Assedotentmbly
+using System.Reflection;//For Assedotentmbly
 //========mediator=
+using Food.Core.Services; 
+using Food.Core.Model;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<FoodDeliveryContext>(options =>
     options.UseSqlite("Data Source=../Food.Core/localdb.db"));
+
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped(typeof(OrderService));
 
 // Register MediatR and scan the assembly for handlers
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));

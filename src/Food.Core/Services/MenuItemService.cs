@@ -1,4 +1,5 @@
 using System;
+using Food.Core.Model;
 
 namespace Food.Core.Services;
 

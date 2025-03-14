@@ -4,6 +4,8 @@ using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 
+namespace Food.Core.Model;
+
 
 // Base entity for common properties
 public abstract class BaseEntity
@@ -73,7 +75,7 @@ public class Restaurant : BaseEntity, IAggregate
     public OpenHours OpenHours { get; set; } = null!;
 }
 
-// MenuItem entity (Part of Restaurant Aggregate, NOT an Aggregate Root)
+// MenuItem entity  Aggregate Root
 public class MenuItem : BaseEntity, IAggregate
 {
     public string Name { get; set; } = null!;
@@ -96,6 +98,7 @@ public class OrderInfo
 {
     public int MenuItemId { get; set; }
     public string MenuItemName { get; set; } = null!;
+    // public int RestaurantId {get; set;}
     public decimal Price { get; set; }
     public string ExtraInstructions { get; set; } = null!;
 }
@@ -132,7 +135,7 @@ public class FoodDeliveryContext : DbContext
             {
                 builder.Property(o => o.Hours)
                     .HasConversion(
-                        v => JsonSerializer.Serialize(v, new JsonSerializerOptions { WriteIndented = false }),  // ✅ FIXED
+                        v => JsonSerializer.Serialize(v, new JsonSerializerOptions { WriteIndented = false }), 
                         v => JsonSerializer.Deserialize<Dictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)>>(
                             v, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) 
                             ?? new Dictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)>()

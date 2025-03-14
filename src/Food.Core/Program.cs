@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Food.Core;
+using Food.Core.Model;
 
 class Program
 {

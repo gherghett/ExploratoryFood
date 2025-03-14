@@ -1,4 +1,6 @@
 
+namespace Food.Core.Model;
+
 public interface IRepository<T> where T : class, IAggregate
 {
     Task<T?> GetByIdAsync(int id, ISpecification<T>? spec = null);

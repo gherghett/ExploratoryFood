@@ -1,0 +1,13 @@
+@using Food.Web.Models
+
+@model RestaurantDetailsViewModel
+
+<div class="container-fluid p-3">
+    <div class="card w-100 d-flex flex-row align-items-center">
+        <img src="@Model.ImageUrl" class="img-fluid" alt="@Model.Name" style="height: 100px; width: auto; object-fit: cover;">
+        <div class="card-body text-center">
+            <h3 class="card-title">@Model.Name</h3>
+            <p class="card-text">Contact: @Model.ContactInfo</p>
+        </div>
+    </div>
+</div>

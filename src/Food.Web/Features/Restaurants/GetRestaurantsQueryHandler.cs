@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Food.Web.Models;
+using Food.Core.Model;
 
-namespace Food.Web.Features.Restaurants.GetRestaurants;
+
+namespace Food.Web.Features.Restaurants;
 
 public class GetRestaurantsQueryHandler : IRequestHandler<GetRestaurantsQuery, List<RestaurantCardViewModel>>
 {

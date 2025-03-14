@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Food.Web.Models;
 using MediatR;
-using Food.Web.Features.Restaurants.GetRestaurants;
+using Food.Web.Features.Restaurants;
 
 namespace Food.Web.Controllers;
 

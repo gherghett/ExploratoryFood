@@ -2,6 +2,8 @@ using System;
 using System.Reflection;
 using System.Linq;
 
+using Food.Core.Model;
+
 namespace Food.Core;
 
 public class AllMenuItemsForRestaurantId : Specification<MenuItem>

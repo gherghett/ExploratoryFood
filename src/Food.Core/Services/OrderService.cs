@@ -24,4 +24,12 @@ public class OrderService
         await _orderRepository.AddAsync(order);
         return order;
     }
+
+    public async Task<OrderStatus?> ChangeStatus(int OrderId, OrderStatus newStatus)
+    {
+        var order = await _orderRepository.GetByIdAsync(OrderId);
+        // if( order is null)
+        //     return null;
+        return null;
+    }
 }

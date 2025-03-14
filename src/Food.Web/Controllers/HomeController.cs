@@ -1,32 +1,26 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Food.Web.Models;
+using MediatR;
+using Food.Web.Features.Restaurants.GetRestaurants;
 
 namespace Food.Web.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly IRepository<Restaurant> _restaurantRepo;
+    private readonly IMediator _mediator;
 
-    public HomeController(ILogger<HomeController> logger, IRepository<Restaurant> restaurantRepo)
+    public HomeController(ILogger<HomeController> logger, IMediator mediator)
     {
         _logger = logger;
-        _restaurantRepo = restaurantRepo;
+        _mediator = mediator;
     }
 
     public async Task<IActionResult> Index()
     {
-        var restaurants = await _restaurantRepo.ListAsync();
-        var restaurantViewModels = restaurants.Select(r =>
-            new RestaurantCardViewModel
-            {
-                Name = r.Name,
-                Id = r.Id,
-                ImageUrl = r.ImageUrl
-            }
-        );
-        return View(restaurantViewModels.ToList());
+        var restaurants = await _mediator.Send(new GetRestaurantsQuery());
+        return View(restaurants);
     }
 
     public IActionResult Privacy()

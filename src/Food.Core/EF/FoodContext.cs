@@ -119,10 +119,11 @@ public class OrderInfo
 // Order Aggregate Root
 public class Order : BaseEntity, IAggregate
 {
+    public DateTime CreationDate {get; set;} = DateTime.Now;
     public CustomerInfo CustomerInfo { get; set; } = null!;
     public OrderInfo OrderDetails { get; set; } = null!;
     public string DeliveryInstructions { get; set; } = null!;
-    public OrderStatus Status { get; set; }
+    public OrderStatus Status { get; set; } = OrderStatus.Pending;
 }
 
 // DbContext

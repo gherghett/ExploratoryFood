@@ -46,7 +46,7 @@ public class OrderDetailsViewModel
 
             MenuItemId = order.OrderDetails.MenuItemId,
             MenuItemName = order.OrderDetails.MenuItemName,
-            MenuItemPrice = order.OrderDetails.Price,
+            MenuItemPrice = order.OrderDetails.Price.total,
             ExtraInstructions = order.OrderDetails.ExtraInstructions,
             MenuItemImageUrl = menuItem.ImageUrl,
 

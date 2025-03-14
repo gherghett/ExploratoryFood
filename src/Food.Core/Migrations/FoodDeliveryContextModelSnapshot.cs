@@ -146,15 +146,40 @@ namespace Food.Core.Migrations
                                 .IsRequired()
                                 .HasColumnType("TEXT");
 
-                            b1.Property<decimal>("Price")
-                                .HasColumnType("TEXT");
-
                             b1.HasKey("OrderId");
 
                             b1.ToTable("Orders");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
+
+                            b1.OwnsOne("Food.Core.Model.Pricing", "Price", b2 =>
+                                {
+                                    b2.Property<int>("OrderInfoOrderId")
+                                        .HasColumnType("INTEGER");
+
+                                    b2.Property<decimal>("serviceFee")
+                                        .HasColumnType("TEXT");
+
+                                    b2.Property<decimal>("sum")
+                                        .HasColumnType("TEXT");
+
+                                    b2.Property<decimal>("total")
+                                        .HasColumnType("TEXT");
+
+                                    b2.Property<decimal>("unit")
+                                        .HasColumnType("TEXT");
+
+                                    b2.HasKey("OrderInfoOrderId");
+
+                                    b2.ToTable("Orders");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("OrderInfoOrderId");
+                                });
+
+                            b1.Navigation("Price")
+                                .IsRequired();
                         });
 
                     b.Navigation("CustomerInfo")

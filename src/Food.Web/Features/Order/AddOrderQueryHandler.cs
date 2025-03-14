@@ -18,13 +18,15 @@ public class AddOrderQueryHandler : IRequestHandler<AddOrderQuery, int>
     {
         var order = await _orderService.PlaceOrder(
             request.NewOrder.MenuItemId, 
+            request.NewOrder.Quantity,
             request.NewOrder.ExtraInstructions ?? "",
             new CustomerInfo {
                 Name = request.NewOrder.Name,
                 Address = request.NewOrder.Address,
                 PhoneNumber = request.NewOrder.PhoneNumber,
             },
-            request.NewOrder.DeliveryInstructions ?? "");
+            request.NewOrder.DeliveryInstructions ?? "",
+            request.NewOrder.ExpectedPricing);
         return order?.Id ?? 0;
     }
 }

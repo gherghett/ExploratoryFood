@@ -71,26 +71,10 @@ public class Restaurant : BaseEntity, IAggregate
     public string ContactInfo { get; set; } = null!;
     public string ImageUrl {get; set;} = null!;
     public OpenHours OpenHours { get; set; } = null!;
-    private readonly List<MenuItem> _menuItems = new();
-    public IReadOnlyCollection<MenuItem> MenuItems => _menuItems.AsReadOnly();
-
-    public void AddMenuItem(string name, decimal price, string imageUrl)
-    {
-        var menuItem = new MenuItem { Name = name, Price = price, ImageUrl = imageUrl, RestaurantId = this.Id };
-        _menuItems.Add(menuItem);
-    }
-
-    public void RemoveMenuItem(int id)
-    {
-        if(_menuItems.Any(m => m.Id == id))
-        {
-            _menuItems.Remove(_menuItems.Where(m => m.Id == id).Single());
-        }
-    }
 }
 
 // MenuItem entity (Part of Restaurant Aggregate, NOT an Aggregate Root)
-public class MenuItem : BaseEntity
+public class MenuItem : BaseEntity, IAggregate
 {
     public string Name { get; set; } = null!;
     public int RestaurantId { get; set; }
@@ -123,7 +107,7 @@ public class Order : BaseEntity, IAggregate
     public CustomerInfo CustomerInfo { get; set; } = null!;
     public OrderInfo OrderDetails { get; set; } = null!;
     public string DeliveryInstructions { get; set; } = null!;
-    public OrderStatus Status { get; set; } = OrderStatus.Pending;
+    public OrderStatus Status { get; set;} = OrderStatus.Pending;
 }
 
 // DbContext
@@ -140,7 +124,7 @@ public class FoodDeliveryContext : DbContext
 
         modelBuilder.Entity<MenuItem>()
             .HasOne(m => m.Restaurant)
-            .WithMany(r => r.MenuItems)
+            .WithMany() //We dont need the nav property
             .HasForeignKey(m => m.RestaurantId);
 
         modelBuilder.Entity<Restaurant>()
@@ -158,6 +142,7 @@ public class FoodDeliveryContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        //remove comment out when migrating, or when using project prom outside
         // optionsBuilder.UseSqlite("Data Source=localdb.db");
 
         base.OnConfiguring(optionsBuilder);

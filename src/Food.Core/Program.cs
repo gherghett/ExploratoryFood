@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using Food.Core;
 
 class Program
 {
@@ -16,6 +17,8 @@ class Program
         await context.Database.EnsureCreatedAsync(); // Creates the database
 
         var restaurantRepository = new Repository<Restaurant>(context);
+        var itemRepository = new Repository<MenuItem>(context);
+
 
         Console.WriteLine("Database setup complete. Adding restaurant...");
 
@@ -37,16 +40,24 @@ class Program
             ImageUrl = "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium"
         };
 
-        // Add a MenuItem using the Aggregate Root method
-        restaurant.AddMenuItem("Margherita Pizza", 10.99m, "https://example.com/pizza.jpg");
 
         // Save the restaurant via repository
         await restaurantRepository.AddAsync(restaurant);
 
+        // Add a MenuItem using the Aggregate Root method
+        // restaurant.AddMenuItem("Margherita Pizza", 10.99m, "https://example.com/pizza.jpg");
+        var menuItem = new MenuItem {
+            Name = "Margherita Pizza",
+            Price = 100.0m,
+            ImageUrl = "https://example.com/pizza.jpg",
+            RestaurantId = restaurant.Id,
+        };
+        await itemRepository.AddAsync(menuItem);
+
         Console.WriteLine("Restaurant added successfully!");
 
         // Retrieve & Display Restaurant Info using Specification
-        var savedRestaurants = await restaurantRepository.ListAsync(new RestaurantWithMenuItemsSpec());
+        var savedRestaurants = await restaurantRepository.ListAsync();
 
         foreach (var savedRestaurant in savedRestaurants)
         {
@@ -58,8 +69,9 @@ class Program
                 Console.WriteLine($"  {day.Key}: {day.Value.Open} - {day.Value.Close}");
             }
 
+            var menuItems = await itemRepository.ListAsync(new AllMenuItemsForRestaurantId(savedRestaurant.Id));
             Console.WriteLine("\nMenu Items:");
-            foreach (var item in savedRestaurant.MenuItems)
+            foreach (var item in menuItems)
             {
                 Console.WriteLine($"  {item.Name} - ${item.Price} ({item.ImageUrl})");
             }

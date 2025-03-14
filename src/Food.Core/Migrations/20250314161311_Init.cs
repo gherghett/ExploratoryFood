@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Food.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,7 +23,10 @@ namespace Food.Core.Migrations
                     CustomerInfo_PhoneNumber = table.Column<string>(type: "TEXT", nullable: false),
                     OrderDetails_MenuItemId = table.Column<int>(type: "INTEGER", nullable: false),
                     OrderDetails_MenuItemName = table.Column<string>(type: "TEXT", nullable: false),
-                    OrderDetails_Price = table.Column<decimal>(type: "TEXT", nullable: false),
+                    OrderDetails_Price_unit = table.Column<decimal>(type: "TEXT", nullable: false),
+                    OrderDetails_Price_sum = table.Column<decimal>(type: "TEXT", nullable: false),
+                    OrderDetails_Price_serviceFee = table.Column<decimal>(type: "TEXT", nullable: false),
+                    OrderDetails_Price_total = table.Column<decimal>(type: "TEXT", nullable: false),
                     OrderDetails_ExtraInstructions = table.Column<string>(type: "TEXT", nullable: false),
                     DeliveryInstructions = table.Column<string>(type: "TEXT", nullable: false),
                     Status = table.Column<int>(type: "INTEGER", nullable: false)

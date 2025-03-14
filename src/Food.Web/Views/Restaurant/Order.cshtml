@@ -1,7 +1,10 @@
+@using Food.Core.Model;
+
 @{
     ViewData["Title"] = "Order Page";
     RestaurantDetailsViewModel restaurant = (RestaurantDetailsViewModel)ViewData["Restaurant"]!;
     MenuItemViewModel menuItem = (MenuItemViewModel)ViewData["MenuItem"]!;
+    decimal serviceFeePercentage = 0.05M; // 5% service fee
 }
 
 <div class="container mt-4">
@@ -14,7 +17,7 @@
                 <img src="@menuItem.ImageUrl" class="card-img-top" alt="@menuItem.Name">
                 <div class="card-body text-center">
                     <h5 class="card-title">@menuItem.Name</h5>
-                    <p class="card-text">Price: $@menuItem.Price</p>
+                    <p class="card-text">Price per item: $@menuItem.Price</p>
                 </div>
             </div>
         </div>
@@ -25,6 +28,7 @@
             <h4>Order Now</h4>
             <form method="post" action="/Order/New">
                 <input type="hidden" name="MenuItemId" value="@menuItem.Id" />
+
                 <div class="mb-3">
                     <label for="Name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="Name" name="Name" required>
@@ -37,10 +41,23 @@
                     <label for="PhoneNumber" class="form-label">Phone Number</label>
                     <input type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" required>
                 </div>
+
                 <div class="mb-3">
                     <label for="Quantity" class="form-label">Quantity</label>
                     <input type="number" class="form-control" id="Quantity" name="Quantity" value="1" min="1" required>
                 </div>
+
+                <!-- Display the calculated price -->
+                <div class="mb-3">
+                    <strong>Total Price: $<span id="TotalPrice">@menuItem.Price</span></strong>
+                </div>
+
+                <!-- Hidden fields for ExpectedPricing with correct binding format -->
+                <input type="hidden" id="HiddenUnitPrice" name="ExpectedPricing[unit]" value="@menuItem.Price">
+                <input type="hidden" id="HiddenSum" name="ExpectedPricing[sum]" value="@menuItem.Price">
+                <input type="hidden" id="HiddenServiceFee" name="ExpectedPricing[serviceFee]" value="@(menuItem.Price * serviceFeePercentage)">
+                <input type="hidden" id="HiddenTotal" name="ExpectedPricing[total]" value="@(menuItem.Price + (menuItem.Price * serviceFeePercentage))">
+
                 <div class="mb-3">
                     <label for="ExtraInstructions" class="form-label">Extra Instructions</label>
                     <textarea class="form-control" id="ExtraInstructions" name="ExtraInstructions" rows="2"></textarea>
@@ -49,8 +66,40 @@
                     <label for="DeliveryInstructions" class="form-label">Delivery Instructions</label>
                     <textarea class="form-control" id="DeliveryInstructions" name="DeliveryInstructions" rows="2"></textarea>
                 </div>
+
                 <button type="submit" class="btn btn-primary w-100">Place Order</button>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const quantityInput = document.getElementById("Quantity");
+        const totalPriceDisplay = document.getElementById("TotalPrice");
+
+        // Hidden fields for pricing
+        const hiddenUnitPrice = document.getElementById("HiddenUnitPrice");
+        const hiddenSum = document.getElementById("HiddenSum");
+        const hiddenServiceFee = document.getElementById("HiddenServiceFee");
+        const hiddenTotal = document.getElementById("HiddenTotal");
+
+        const unitPrice = parseFloat(hiddenUnitPrice.value);
+        const serviceFeePercentage = 0.05; // 5% service fee
+
+        quantityInput.addEventListener("input", function () {
+            let quantity = parseInt(quantityInput.value) || 1;
+            let sum = unitPrice * quantity;
+            let serviceFee = sum * serviceFeePercentage;
+            let total = sum + serviceFee;
+
+            // Update displayed price
+            totalPriceDisplay.textContent = total.toFixed(2);
+
+            // Update hidden fields for form submission
+            hiddenSum.value = sum.toFixed(2);
+            hiddenServiceFee.value = serviceFee.toFixed(2);
+            hiddenTotal.value = total.toFixed(2);
+        });
+    });
+</script>

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Security.Cryptography;
 using System.Text.Json;
 
 namespace Food.Core.Model;
@@ -64,6 +65,7 @@ public class OpenHours
     }
 }
 
+public record Pricing(decimal unit, decimal sum, decimal serviceFee, decimal total);
 
 // Restaurant entity (Aggregate Root)
 public class Restaurant : BaseEntity, IAggregate
@@ -99,7 +101,7 @@ public class OrderInfo
     public int MenuItemId { get; set; }
     public string MenuItemName { get; set; } = null!;
     // public int RestaurantId {get; set;}
-    public decimal Price { get; set; }
+    public Pricing Price {get; set;} = null!;
     public string ExtraInstructions { get; set; } = null!;
 }
 
@@ -123,12 +125,17 @@ public class FoodDeliveryContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Order>().OwnsOne(o => o.CustomerInfo);
-        modelBuilder.Entity<Order>().OwnsOne(o => o.OrderDetails);
+        modelBuilder.Entity<Order>().OwnsOne(o => o.OrderDetails, oi =>
+        {
+            oi.OwnsOne(oi => oi.Price); // Nested owned type
+        });
+
 
         modelBuilder.Entity<MenuItem>()
             .HasOne(m => m.Restaurant)
             .WithMany() //We dont need the nav property
             .HasForeignKey(m => m.RestaurantId);
+
 
         modelBuilder.Entity<Restaurant>()
             .OwnsOne(r => r.OpenHours, builder =>

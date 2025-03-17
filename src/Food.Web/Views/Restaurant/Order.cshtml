@@ -49,14 +49,15 @@
 
                 <!-- Display the calculated price -->
                 <div class="mb-3">
-                    <strong>Total Price: $<span id="TotalPrice">@menuItem.Price</span></strong>
+                    <strong>Total Price: $<span id="TotalPrice">@(menuItem.Price + (menuItem.Price * serviceFeePercentage))</span></strong>
                 </div>
 
                 <!-- Hidden fields for ExpectedPricing with correct binding format -->
-                <input type="hidden" id="HiddenUnitPrice" name="ExpectedPricing[unit]" value="@menuItem.Price">
-                <input type="hidden" id="HiddenSum" name="ExpectedPricing[sum]" value="@menuItem.Price">
-                <input type="hidden" id="HiddenServiceFee" name="ExpectedPricing[serviceFee]" value="@(menuItem.Price * serviceFeePercentage)">
-                <input type="hidden" id="HiddenTotal" name="ExpectedPricing[total]" value="@(menuItem.Price + (menuItem.Price * serviceFeePercentage))">
+                <input type="hidden" id="HiddenUnitPrice" name="ExpectedPricing.unit" value="@menuItem.Price">
+                <input type="hidden" id="HiddenSum" name="ExpectedPricing.sum" value="@menuItem.Price">
+                <input type="hidden" id="HiddenServiceFee" name="ExpectedPricing.serviceFee" value="@(menuItem.Price * serviceFeePercentage)">
+                <input type="hidden" id="HiddenTotal" name="ExpectedPricing.total" value="@(menuItem.Price + (menuItem.Price * serviceFeePercentage))">
+
 
                 <div class="mb-3">
                     <label for="ExtraInstructions" class="form-label">Extra Instructions</label>
@@ -74,6 +75,7 @@
 </div>
 
 <script>
+    //This should propably be an api-call instead
     document.addEventListener("DOMContentLoaded", function () {
         const quantityInput = document.getElementById("Quantity");
         const totalPriceDisplay = document.getElementById("TotalPrice");
@@ -89,17 +91,24 @@
 
         quantityInput.addEventListener("input", function () {
             let quantity = parseInt(quantityInput.value) || 1;
+            console.log(quantity);
             let sum = unitPrice * quantity;
+            console.log("sum " + sum);
             let serviceFee = sum * serviceFeePercentage;
             let total = sum + serviceFee;
+            console.log("total " + total);
 
             // Update displayed price
             totalPriceDisplay.textContent = total.toFixed(2);
 
             // Update hidden fields for form submission
-            hiddenSum.value = sum.toFixed(2);
-            hiddenServiceFee.value = serviceFee.toFixed(2);
-            hiddenTotal.value = total.toFixed(2);
+            // the formatSwedishNumber is in /js/site.js 
+            hiddenSum.value = formatSwedishNumber(sum);
+            hiddenServiceFee.value = formatSwedishNumber(serviceFee);
+            hiddenTotal.value = formatSwedishNumber(total);
+
+            console.log("sum updated "+hiddenSum.value);
         });
+
     });
 </script>

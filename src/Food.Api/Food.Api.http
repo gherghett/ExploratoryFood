@@ -1,6 +1,11 @@
-@Food.Api_HostAddress = http://localhost:5212
+@Api_HostAddress = http://localhost:5212
 
-GET {{Food.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{Api_HostAddress}}/calculate-price
+Content-Type: application/json
+
+{
+    "menuitemid": "1",
+    "quantity": "3"
+}
 
 ###

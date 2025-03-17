@@ -6,20 +6,19 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-//App level services
+// Swagger
 builder.Services.AddEndpointsApiExplorer(); // Required for Minimal APIs
-builder.Services.AddDbContext<FoodDeliveryContext>(options =>
-    options.UseSqlite("Data Source=../Food.Core/localdb.db"));
 builder.Services.AddSwaggerGen(); // Registers Swagger
 
-//Service layer services
+// Custom gus extention
+builder.Services.AddEndpoints(typeof(Program).Assembly);
+
+builder.Services.AddDbContext<FoodDeliveryContext>(options =>
+    options.UseSqlite("Data Source=../Food.Core/localdb.db"));
+
+// Service layer services
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<OrderService>();
-
-//Endpoints 
-builder.Services.AddScoped<CalculatePriceEndpoint>();
 
 // Add CORS policy
 builder.Services.AddCors(options =>
@@ -37,6 +36,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.MapEndpoints(); //Part of Gus enpoint mapper found in extentions folder
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -44,44 +45,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(); // Enables Swagger UI
 }
 
-// Actually use the cors policy
+// Actually use the cors policy eralier defined
 app.UseCors("AllowLocalhost");
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi(); // Exposes endpoint in Swagger
-
-app.MapPost("/calculate-price", async (CalculatePriceEndpoint endpoint, CalculatePriceEndpoint.Request request) =>
-{
-    return await endpoint.Handle(request);
-})
-.WithName("CalculatePrice")
-.WithOpenApi(); //swagger
-
-// policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-
-
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

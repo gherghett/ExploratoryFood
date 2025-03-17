@@ -3,18 +3,26 @@ namespace Food.Api.Endpoints;
 using System.Reflection.Metadata;
 using Food.Core.Services;
 using Food.Core.Model;
+using Microsoft.AspNetCore.Mvc;
 
-public class CalculatePriceEndpoint {
-    private readonly OrderService _orderService;
-    public CalculatePriceEndpoint(OrderService orderService)
-    {
-        _orderService = orderService;
-    }
+public class CalculatePrice {
 
-    public async Task<Response> Handle(Request request)
+    public class Endpoint : IEndpoint
     {
-        var price = await _orderService.CalculatePrice(request.menuItemId, request.quantity);
-        return new Response(price);
+        public void MapEndpoint(IEndpointRouteBuilder app) 
+         => app.MapPost("/calculate-price", Handle)
+            .WithName("CalculatePrice")
+            .WithOpenApi(); 
+        public async Task<Response> Handle
+        (
+            [FromServices] OrderService orderService,
+            [FromBody] Request request
+        )
+        {
+            var price = await orderService.CalculatePrice(request.menuItemId, request.quantity);
+            return new Response(price);
+        }
+
     }
     public record Request(int menuItemId, int quantity);
     public record Response(Pricing Pricing);

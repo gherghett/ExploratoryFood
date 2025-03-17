@@ -31,7 +31,7 @@ public class OrderService
         var pricing = await CalculatePrice(menuItemId,quantity );
 
         if(pricing != expectedPricing)
-            throw new OrderException("Pricing was not the same as expected");
+            throw new OrderException($"Pricing was not the same as expected; expected {expectedPricing} but was {pricing}");
 
         if(item is null)
             Console.WriteLine("this is bad");

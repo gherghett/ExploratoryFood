@@ -15,7 +15,7 @@ På den publika hemsidan ska besökare kunna:
 - [x] Se restaurangers menyer  
 - [x] Välja en maträtt som ska beställas samt antal  
 - [x] Lägga en order på vald maträtt där totalpriset för ordern visas  
-  -[ ] (summan för maten + leveransavgift + 5% serviceavgift)  
+  -[x] (summan för maten + leveransavgift + 5% serviceavgift)  
 - [x] Se status för ordern och 
 [ ] hur lång tid det är kvar innan den levereras  
 

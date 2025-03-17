@@ -75,7 +75,6 @@
 </div>
 
 <script>
-    //This should propably be an api-call instead
     document.addEventListener("DOMContentLoaded", function () {
         const quantityInput = document.getElementById("Quantity");
         const totalPriceDisplay = document.getElementById("TotalPrice");
@@ -86,29 +85,68 @@
         const hiddenServiceFee = document.getElementById("HiddenServiceFee");
         const hiddenTotal = document.getElementById("HiddenTotal");
 
-        const unitPrice = parseFloat(hiddenUnitPrice.value);
+        const menuItemId = parseInt(document.querySelector('input[name="MenuItemId"]').value, 10);
         const serviceFeePercentage = 0.05; // 5% service fee
 
-        quantityInput.addEventListener("input", function () {
+        function localCalculation() {
+            const unitPrice = parseFloat(hiddenUnitPrice.value);
             let quantity = parseInt(quantityInput.value) || 1;
-            console.log(quantity);
+
             let sum = unitPrice * quantity;
-            console.log("sum " + sum);
             let serviceFee = sum * serviceFeePercentage;
             let total = sum + serviceFee;
-            console.log("total " + total);
 
             // Update displayed price
             totalPriceDisplay.textContent = total.toFixed(2);
 
             // Update hidden fields for form submission
-            // the formatSwedishNumber is in /js/site.js 
-            hiddenSum.value = formatSwedishNumber(sum);
-            hiddenServiceFee.value = formatSwedishNumber(serviceFee);
-            hiddenTotal.value = formatSwedishNumber(total);
+            hiddenSum.value = formatSwedishNumber ? formatSwedishNumber(sum) : sum.toFixed(2);
+            hiddenServiceFee.value = formatSwedishNumber ? formatSwedishNumber(serviceFee) : serviceFee.toFixed(2);
+            hiddenTotal.value = formatSwedishNumber ? formatSwedishNumber(total) : total.toFixed(2);
+        }
 
-            console.log("sum updated "+hiddenSum.value);
-        });
+        async function updatePrice() {
+            let quantity = parseInt(quantityInput.value) || 1;
 
+            // Optimistically update UI with local calculation while waiting for API response
+            localCalculation();
+
+            try {
+                let response = await fetch("http://localhost:5212/calculate-price", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ menuItemId: menuItemId, quantity: quantity }),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to calculate price");
+                }
+
+                let data = await response.json();
+
+                // Update displayed price
+                totalPriceDisplay.textContent = data.pricing.total.toFixed(2);
+
+                // Update hidden fields for form submission
+                hiddenUnitPrice.value = data.pricing.unit;
+                hiddenSum.value = data.pricing.sum;
+                hiddenServiceFee.value = data.pricing.serviceFee;
+                hiddenTotal.value = data.pricing.total;
+
+            } catch (error) {
+                console.error("Error fetching price:", error);
+            }
+        }
+
+        // Run initial calculation on page load
+        localCalculation();
+
+        // Trigger API call when quantity changes
+        quantityInput.addEventListener("input", updatePrice);
     });
 </script>
+
+
+

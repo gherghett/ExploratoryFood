@@ -4,6 +4,8 @@ using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using Food.Core;
 
 namespace Food.Core.Model;
 
@@ -29,41 +31,81 @@ public enum OrderStatus
 }
 
 // Value Object for Open Hours
+[JsonConverter(typeof(OpenHoursJsonConverter))]
 public class OpenHours
 {
-    private Dictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)> _hours;
-    public IReadOnlyDictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)> Hours => _hours;
+    private Dictionary<DayOfWeek, OpenHourEntry> _hours;
+    private IClock _clock = new SystemClock();
+    public IReadOnlyDictionary<DayOfWeek, OpenHourEntry> Hours => _hours;
 
     // EF Core requires a parameterless constructor
-    private OpenHours() => _hours = new Dictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)>();
+    private OpenHours() => _hours = new Dictionary<DayOfWeek,OpenHourEntry>();
 
-    public OpenHours(Dictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)> hours)
+    public OpenHours(Dictionary<DayOfWeek, OpenHourEntry> hours, IClock clock = null!)
     {
-        _hours = new Dictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)>(hours);
+        _hours = new Dictionary<DayOfWeek, OpenHourEntry>(hours);
+        _clock = clock ?? new SystemClock();
     }
 
-    // Method to update hours while maintaining immutability
-    public OpenHours UpdateHours(DayOfWeek day, TimeOnly open, TimeOnly close)
+    // ✅ Explicitly tell System.Text.Json how to deserialize this object
+    [JsonConstructor]
+    public OpenHours(Dictionary<DayOfWeek, OpenHourEntry> hours)
     {
-        var updatedHours = new Dictionary<DayOfWeek, (TimeOnly, TimeOnly)>(_hours)
+        _hours = new Dictionary<DayOfWeek, OpenHourEntry>(hours);
+    }
+
+
+    // Method to update hours while maintaining immutability
+    public OpenHours UpdateHours(DayOfWeek day, OpenHourEntry entry)
+    {
+        var updatedHours = new Dictionary<DayOfWeek, OpenHourEntry>(_hours)
         {
-            [day] = (open, close)
+            [day] = entry
         };
 
         return new OpenHours(updatedHours);
     }
 
     // Convert to JSON for database storage
-    public string ToJson() => JsonSerializer.Serialize(_hours);
-
-    // Restore from JSON
-    public static OpenHours FromJson(string json)
+    public string ToJson()
     {
-        var dict = JsonSerializer.Deserialize<Dictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)>>(json) 
-                   ?? new Dictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)>();
-        return new OpenHours(dict);
+        return JsonSerializer.Serialize(_hours,new JsonSerializerOptions
+        {
+            WriteIndented = false,
+            PropertyNameCaseInsensitive = true
+        });
+    }
+
+    internal bool IsOpenForOrders()
+    {
+        var today = _clock.Today;
+        var time = _clock.CurrentTime;
+        if( !_hours.TryGetValue(today, out var hours))
+        {
+            return false;
+        }
+        return time >= hours.Open && time < hours.Close;
     }
 }
+
+public class OpenHourEntry
+{
+    [JsonConverter(typeof(TimeOnlyJsonConverter))]
+
+    public TimeOnly Open { get; set; }
+
+    [JsonConverter(typeof(TimeOnlyJsonConverter))]
+    public TimeOnly Close { get; set; }
+
+    public OpenHourEntry() { } // Required for deserialization
+
+    public OpenHourEntry(TimeOnly open, TimeOnly close)
+    {
+        Open = open;
+        Close = close;
+    }
+}
+
 
 public record Pricing(decimal unit, decimal sum, decimal serviceFee, decimal total);
 
@@ -74,7 +116,12 @@ public class Restaurant : BaseEntity, IAggregate
     public string Address { get; set; } = null!;
     public string ContactInfo { get; set; } = null!;
     public string ImageUrl {get; set;} = null!;
+
+    [JsonConverter(typeof(OpenHoursJsonConverter))]
     public OpenHours OpenHours { get; set; } = null!;
+
+    public bool IsOpenForOrders() =>
+        OpenHours.IsOpenForOrders();
 }
 
 // MenuItem entity  Aggregate Root
@@ -152,9 +199,9 @@ public class FoodDeliveryContext : DbContext
                 builder.Property(o => o.Hours)
                     .HasConversion(
                         v => JsonSerializer.Serialize(v, new JsonSerializerOptions { WriteIndented = false }), 
-                        v => JsonSerializer.Deserialize<Dictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)>>(
+                        v => JsonSerializer.Deserialize<Dictionary<DayOfWeek, OpenHourEntry>>(
                             v, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) 
-                            ?? new Dictionary<DayOfWeek, (TimeOnly Open, TimeOnly Close)>()
+                            ?? new Dictionary<DayOfWeek, OpenHourEntry>()
                     );
             });
     }
@@ -162,7 +209,7 @@ public class FoodDeliveryContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         //remove comment out when migrating, or when using project prom outside
-        // optionsBuilder.UseSqlite("Data Source=localdb.db");
+        //optionsBuilder.UseSqlite("Data Source=localdb.db");
 
         base.OnConfiguring(optionsBuilder);
     }

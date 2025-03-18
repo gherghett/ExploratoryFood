@@ -13,14 +13,14 @@ public class CalculatePrice {
          => app.MapPost("/calculate-price", Handle)
             .WithName("CalculatePrice")
             .WithOpenApi(); 
-        public async Task<Response> Handle
+        public async Task<IResult> Handle
         (
             [FromServices] OrderService orderService,
             [FromBody] Request request
         )
         {
             var price = await orderService.CalculatePrice(request.menuItemId, request.quantity);
-            return new Response(price);
+            return Results.Ok(new Response(price));
         }
 
     }

@@ -1,6 +1,10 @@
 using Food.Core.Services;
 using Food.Core.Model;
 using Food.Api.Endpoints;
+using Food.Core;
+using System.Text.Json;
+using Swashbuckle.AspNetCore.SwaggerGen;
+
 
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer(); // Required for Minimal APIs
-builder.Services.AddSwaggerGen(); // Registers Swagger
+builder.Services.AddSwaggerGen(options =>
+{
+    options.(); // Ensures it respects System.Text.Json settings
+});
+
 
 // Custom gus extention
 builder.Services.AddEndpoints(typeof(Program).Assembly);
@@ -19,6 +27,14 @@ builder.Services.AddDbContext<FoodDeliveryContext>(options =>
 // Service layer services
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<RestaurantService>();
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new OpenHoursJsonConverter());
+    options.SerializerOptions.Converters.Add(new DayOfWeekJsonConverter());
+    options.SerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
+});
 
 // Add CORS policy
 builder.Services.AddCors(options =>

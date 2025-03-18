@@ -9,7 +9,7 @@ public class OrderService
 {
     private readonly IRepository<Order> _orderRepository;
     private readonly IRepository<MenuItem> _itemRepository;
-
+    private readonly IRepository<Restaurant> _restaurantRepository;
 
     public OrderService(IRepository<Order> orderRepository, IRepository<MenuItem> itemRepository)
     {
@@ -17,7 +17,7 @@ public class OrderService
         _itemRepository = itemRepository;
     }
 
-    public async Task<Order?> PlaceOrder(
+    public async Task<Result<Order>> PlaceOrder(
         int menuItemId, 
         int quantity,
         string extraInstructions,
@@ -29,12 +29,17 @@ public class OrderService
         var item = await _itemRepository.GetByIdAsync(menuItemId);
 
         var pricing = await CalculatePrice(menuItemId,quantity );
-
         if(pricing != expectedPricing)
-            throw new OrderException($"Pricing was not the same as expected; expected {expectedPricing} but was {pricing}");
+            throw new OrderException($"Pricing was not the same as was displayed; expected {expectedPricing} but was {pricing}. Is API running?");
 
         if(item is null)
-            Console.WriteLine("this is bad");
+            throw new OrderException("Could not load MenuItem");
+
+        var restaurant = await _restaurantRepository.GetByIdAsync(item.RestaurantId);
+        if(restaurant is null)
+            throw new OrderException("Could not load restaurant");
+        if(!restaurant.IsOpenForOrders())
+            return new Result<Order>("Cannot order from restaurant bc it is not open for orders");
 
         var orderInfo = new OrderInfo {
             MenuItemId = menuItemId,
@@ -49,7 +54,7 @@ public class OrderService
             DeliveryInstructions = deliveryInstructions
         };
         await _orderRepository.AddAsync(order);
-        return order;
+        return new Result<Order>(order);
     }
 
     public async Task<Pricing> CalculatePrice(int menuItemId, int quantity)

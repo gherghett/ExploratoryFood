@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Food.Core;
 using Food.Core.Model;
 
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("UnitTests")]
+
 class Program
 {
     static async Task Main(string[] args)
@@ -24,11 +27,11 @@ class Program
         Console.WriteLine("Database setup complete. Adding restaurant...");
 
         // Create OpenHours
-        var openHours = new OpenHours(new Dictionary<DayOfWeek, (TimeOnly, TimeOnly)>
+        var openHours = new OpenHours(new Dictionary<DayOfWeek, OpenHourEntry>
         {
-            { DayOfWeek.Monday, (new TimeOnly(9, 0), new TimeOnly(22, 0)) },
-            { DayOfWeek.Tuesday, (new TimeOnly(9, 0), new TimeOnly(22, 0)) },
-            { DayOfWeek.Wednesday, (new TimeOnly(9, 0), new TimeOnly(22, 0)) }
+            { DayOfWeek.Monday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Tuesday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Wednesday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) }
         });
 
         // Create a new Restaurant

@@ -4,6 +4,7 @@ using Food.Web.Models;
 using MediatR;
 using Food.Web.Features.Restaurants;
 using Food.Web.Features.Order;
+using Food.Core.Model;
 
 
 namespace Food.Web.Controllers

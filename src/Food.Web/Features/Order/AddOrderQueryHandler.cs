@@ -16,7 +16,7 @@ public class AddOrderQueryHandler : IRequestHandler<AddOrderQuery, int>
     }
     public async Task<int> Handle(AddOrderQuery request, CancellationToken cancellationToken)
     {
-        var order = await _orderService.PlaceOrder(
+        var orderResult = await _orderService.PlaceOrder(
             request.NewOrder.MenuItemId, 
             request.NewOrder.Quantity,
             request.NewOrder.ExtraInstructions ?? "",
@@ -27,6 +27,10 @@ public class AddOrderQueryHandler : IRequestHandler<AddOrderQuery, int>
             },
             request.NewOrder.DeliveryInstructions ?? "",
             request.NewOrder.ExpectedPricing);
-        return order?.Id ?? 0;
+
+        if(!orderResult.TryGet(out var order))
+            return 0;
+        
+        return order.Id;
     }
 }

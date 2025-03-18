@@ -35,7 +35,7 @@ Via REST API:et ska det gå att:
 ---
 
 ## Regler för systemet  
-- [ ] En order får bara skapas om den innehåller all information  
+- [x] En order får bara skapas om den innehåller all information  
   - (Beställd maträtt, namn, telefonnummer och adress)  
 - [ ] En order kan bara läggas om restaurangen är öppen och innan "Tid för sista beställning"  
 - [ ] En orders status ska sättas enligt följande flöde:  

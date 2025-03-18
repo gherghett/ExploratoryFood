@@ -52,6 +52,7 @@
             <div class="card p-3">
                 <h4>Order Status</h4>
                 <p><strong>Status:</strong> @Model.Status</p>
+                <p><strong>Time Remaining: @(Model.TimeRemaining?.ToString() ?? "-")</strong></p>
                 <p><strong>Delivery Instructions:</strong> @Model.DeliveryInstructions</p>
             </div>
         </div>

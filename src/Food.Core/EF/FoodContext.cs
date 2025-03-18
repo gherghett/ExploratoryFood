@@ -113,6 +113,15 @@ public class Order : BaseEntity, IAggregate
     public OrderInfo OrderDetails { get; set; } = null!;
     public string DeliveryInstructions { get; set; } = null!;
     public OrderStatus Status { get; set;} = OrderStatus.Pending;
+
+    public TimeSpan? TimeRemaining()
+    {
+        var delivery_time = CreationDate.AddHours(1);
+        var remaining = delivery_time - DateTime.Now;
+        if( remaining <= TimeSpan.Zero )
+            return null;
+        return remaining;
+    }
 }
 
 // DbContext

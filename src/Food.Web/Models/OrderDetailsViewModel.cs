@@ -12,6 +12,8 @@ public class OrderDetailsViewModel
     public OrderStatus Status { get; set; }
     public string DeliveryInstructions { get; set; } = string.Empty;
 
+    public TimeSpan? TimeRemaining {get; set;}
+
     // Customer Information
     public string CustomerName { get; set; } = string.Empty;
     public string CustomerAddress { get; set; } = string.Empty;
@@ -37,6 +39,7 @@ public class OrderDetailsViewModel
         {
             OrderId = order.Id,
             CreationDate = order.CreationDate,
+            TimeRemaining = order.TimeRemaining(),
             Status = order.Status,
             DeliveryInstructions = order.DeliveryInstructions,
 

@@ -11,10 +11,11 @@ public class OrderService
     private readonly IRepository<MenuItem> _itemRepository;
     private readonly IRepository<Restaurant> _restaurantRepository;
 
-    public OrderService(IRepository<Order> orderRepository, IRepository<MenuItem> itemRepository)
+    public OrderService(IRepository<Order> orderRepository, IRepository<MenuItem> itemRepository, IRepository<Restaurant> restaurantRepository)
     {
         _orderRepository = orderRepository;
         _itemRepository = itemRepository;
+        _restaurantRepository = restaurantRepository;
     }
 
     public async Task<Result<Order>> PlaceOrder(

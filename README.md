@@ -15,8 +15,8 @@ Obligatorisk självständig inlämningsuppgift för **BY-SUVNET OOP2**
 ---
 
 ## Checklista för inlämning
-- [ ] Jag har läst instruktionerna noggrant.
-- [ ] Jag har ställt frågor om det är något som är otydligt.
+- [x] Jag har läst instruktionerna noggrant.
+- [x] Jag har ställt frågor om det är något som är otydligt.
 - [ ] Jag har tagit bort oanvänd kod.
 - [ ] Jag har tagit bort onödiga kommentarer.
 - [ ] Jag har formaterat min kod fint.
@@ -29,16 +29,16 @@ Obligatorisk självständig inlämningsuppgift för **BY-SUVNET OOP2**
 ## Betygskriterier
 
 ### För G
-- [ ] Användning av **Asp.Net**, **EF Core** och **SQLite**.
-- [ ] Samtliga krav för hemsidan är uppfyllda.
+- [x] Användning av **Asp.Net**, **EF Core** och **SQLite**.
+- [x] Samtliga krav för hemsidan är uppfyllda.
 - [ ] Samtliga krav för REST-APIet är uppfyllda.
-- [ ] Minst 2 av 4 systemregler implementerade.
+- [x] Minst 2 av 4 systemregler implementerade.
 - [ ] Checklista för inlämning (se ovan) har genomförts.
 
 ### För VG
 - Samtliga G-krav ovan, plus:
-  - [ ] Alla G-systemregler.
-  - [ ] En övergripande bra struktur på koden med motivering kring val under code review.
+  - [x] Alla G-systemregler.
+  - [x] En övergripande bra struktur på koden med motivering kring val under code review.
   - [ ] Minst 7 av 14 extrakrav:
   - [ ] God felhantering av data.
   - [ ] Hantering av eventuella nyinkomna kravspecändringar.
@@ -66,20 +66,22 @@ Projektet består av **två delar**:
 ## Publik Hemsida
 
 Besökare ska kunna:
-- [ ] **Se vilka restauranger** som finns.
-- [ ] **Se restaurangers menyer**.
-- [ ] **Välja en maträtt** som ska beställas samt ange antal.
-- [ ] **Lägga en order** på vald maträtt, där totalpriset visas (summan för maten plus leveransavgift plus 5% serviceavgift).
-- [ ] **Se status för ordern** och hur lång tid det är kvar innan den levereras.
+- [x] **Se vilka restauranger** som finns.
+- [x] **Se restaurangers menyer**.
+- [x] **Välja en maträtt** som ska beställas samt ange antal.
+- [x] **Lägga en order** på vald maträtt, där totalpriset visas (summan för maten plus leveransavgift plus 5% serviceavgift).
+- [x] **Se status för ordern** och hur lång tid det är kvar innan den levereras.
 
 ---
 
 ## REST API
 
+
 API:et ska fungera som ett administrationsverktyg (investeraren har för närvarande inte råd med ett användarvänligt gränssnitt).
 
+OBS SAMTLIGA SKA BOCKAS
 Funktioner via REST API:
-- [ ] **Registrera** nya restauranger.
+- [o] **Registrera** nya restauranger.
 - [ ] **Lägga till** maträtter till restaurangers menyer.
 - [ ] **Hämta** en lista på alla ordrar.
 - [ ] **Hämta** en lista på ordrar med en specifik status (t.ex. alla ordrar som väntar på ett bud) och för en specifik restaurang.
@@ -91,14 +93,14 @@ Funktioner via REST API:
 ## Regler för Systemet
 
 ### Order
-- [ ] En order får bara skapas om den innehåller all nödvändig information:
+- [x] En order får bara skapas om den innehåller all nödvändig information:
   - Beställd maträtt
   - Namn
   - Telefonnummer
   - Adress
 
 - En order kan bara läggas om:
-  - [ ] Restaurangen är öppen.
+  - [x] Restaurangen är öppen.
   - [ ] Ordern läggs innan "Tid för sista beställning".
 
 - [ ] **Orderstatus** ska följa följande flöde:
@@ -148,6 +150,11 @@ Hur du väljer att strukturera uppgiften är upp till dig, men du måste använd
 - **Blazor** med frontend-specifik funktionalitet och ett separat REST API för admin-delen.
 - **Blazor WASM** som frontend med ett separat REST API som backend.
 
+### Daniel kommenterar:
+Vi har en MVC som på lite småmonolitiskt vis hanterar sin funktionalitet själv (utan att anropa API:et för det mesta). 
+
+Sen är API:et ett separat projekt.
+
 ### Databas
 - **SQLite** ska användas i projektet som committas.  
   (Under utvecklingen kan du använda InMemory med seeding, men för inlämningen ska SQLite användas.)
@@ -177,10 +184,10 @@ Projektet skall ha ett eller två separata test-projekt som innehåller enhets- 
 ## Betygskriterier
 
 ### För G
-- Gör minst ett enhetstest på något i applikationens kärna
-- Testa API-endpointen för att hämta alla ordrar, med hjälp av ett integrationstest
+- [x] Gör minst ett enhetstest på något i applikationens kärna
+- [ ]Testa API-endpointen för att hämta alla ordrar, med hjälp av ett integrationstest
 
 ### För VG
-- Använd en mock i ett enhetstest
-- Skriv ett enhetstest som syftar till att skydda en domäninvariant (protect domain invariants)
-- Konfigurera databasen i integrationstestet så att det inte är den riktiga databasen som används
+- [ ] Använd en mock i ett enhetstest
+- [ ] Skriv ett enhetstest som syftar till att skydda en domäninvariant (protect domain invariants)
+- [ ] Konfigurera databasen i integrationstestet så att det inte är den riktiga databasen som används

@@ -5,3 +5,10 @@ kanske nästa grej är
 eftersom detta är del av core
 
 innan testing börjar, osså får test byggas i samband med att api:et expanderar?
+
+----
+
+Det är lite buggigt med pris-kalkylationen när man ska köpa ngt, priset uppdataeras inte nödvändigtvis om man går fram och tillbaka i webbläsaren, detta kommer inte fixas tror jag
+
+Nästa: göra alla obligatoriska API-endpoints.
+Authentisering är ett "extra-krav"

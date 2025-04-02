@@ -81,7 +81,7 @@ API:et ska fungera som ett administrationsverktyg (investeraren har för närvar
 
 OBS SAMTLIGA SKA BOCKAS
 Funktioner via REST API:
-- [o] **Registrera** nya restauranger.
+- [x] **Registrera** nya restauranger.
 - [ ] **Lägga till** maträtter till restaurangers menyer.
 - [ ] **Hämta** en lista på alla ordrar.
 - [ ] **Hämta** en lista på ordrar med en specifik status (t.ex. alla ordrar som väntar på ett bud) och för en specifik restaurang.

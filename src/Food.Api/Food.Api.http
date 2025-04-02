@@ -9,3 +9,46 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{Api_HostAddress}}/restaurant/create/
+Content-Type: application/json
+
+{
+  "restaurant": {
+    "id": 0,
+    "name": "Very Curry Restaurant",
+    "address": "Gbg 123123123",
+    "contactInfo": "telefon 0070707",
+    "imageUrl": "string",
+    "openHours": { 
+        "Wednesday": {
+          "open": "09:00",
+          "close": "22:00"
+      }
+    }
+  }
+}
+
+###
+
+#INVALID REQUEST Wednesday is misspelled
+POST {{Api_HostAddress}}/restaurant/create/
+Content-Type: application/json
+
+{
+  "restaurant": {
+    "id": 0,
+    "name": "Very Curry Restaurant",
+    "address": "Gbg 123123123",
+    "contactInfo": "telefon 0070707",
+    "imageUrl": "string",
+    "openHours": { 
+        "Wednesdy": {
+          "open": "09:00",
+          "close": "22:00"
+      }
+    }
+  }
+}
+
+###

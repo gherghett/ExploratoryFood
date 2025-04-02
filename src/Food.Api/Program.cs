@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer(); // Required for Minimal APIs
 builder.Services.AddSwaggerGen(options =>
 {
-    options.(); // Ensures it respects System.Text.Json settings
+    // options.(); // Ensures it respects System.Text.Json settings
 });
 
 

@@ -17,16 +17,14 @@ class Program
                 .UseSqlite("Data Source=../Food.Core/localdb.db")
                 .Options
             );
-        await context.Database.EnsureDeletedAsync(); // Deletes the database (for testing)
-        await context.Database.EnsureCreatedAsync(); // Creates the database
+        await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureCreatedAsync();
 
         var restaurantRepository = new Repository<Restaurant>(context);
         var itemRepository = new Repository<MenuItem>(context);
 
+        Console.WriteLine("Database setup complete. Adding restaurants...");
 
-        Console.WriteLine("Database setup complete. Adding restaurant...");
-
-        // Create OpenHours
         var openHours = new OpenHours(new Dictionary<DayOfWeek, OpenHourEntry>
         {
             { DayOfWeek.Monday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
@@ -34,8 +32,8 @@ class Program
             { DayOfWeek.Wednesday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) }
         });
 
-        // Create a new Restaurant
-        var restaurant = new Restaurant
+        // 🍕 Pizza Palace
+        var pizzaPalace = new Restaurant
         {
             Name = "Pizza Palace",
             Address = "123 Food Street",
@@ -43,24 +41,85 @@ class Program
             OpenHours = openHours,
             ImageUrl = "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium"
         };
+        await restaurantRepository.AddAsync(pizzaPalace);
 
+        await itemRepository.AddAsync(new MenuItem { Name = "Margherita Pizza", Price = 100.0m, ImageUrl = "https://example.com/pizza.jpg", RestaurantId = pizzaPalace.Id });
+        await itemRepository.AddAsync(new MenuItem { Name = "Pepperoni Classic", Price = 120.0m, ImageUrl = "https://example.com/pizza2.jpg", RestaurantId = pizzaPalace.Id });
+        await itemRepository.AddAsync(new MenuItem { Name = "Truffle Mushroom", Price = 135.0m, ImageUrl = "https://example.com/pizza3.jpg", RestaurantId = pizzaPalace.Id });
 
-        // Save the restaurant via repository
-        await restaurantRepository.AddAsync(restaurant);
-
-        // Add a MenuItem using the Aggregate Root method
-        // restaurant.AddMenuItem("Margherita Pizza", 10.99m, "https://example.com/pizza.jpg");
-        var menuItem = new MenuItem {
-            Name = "Margherita Pizza",
-            Price = 100.0m,
-            ImageUrl = "https://example.com/pizza.jpg",
-            RestaurantId = restaurant.Id,
+        // 🇮🇳 Spice n Rice
+        var spiceOpenHours = new OpenHours(new Dictionary<DayOfWeek, OpenHourEntry>
+        {
+            { DayOfWeek.Monday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Tuesday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Wednesday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Thursday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) }
+        });
+        var spiceNRice = new Restaurant
+        {
+            Name = "Spice n Rice",
+            Address = "Västerlånggatan 5, Borås",
+            ContactInfo = "info@spicenrice.se",
+            OpenHours = spiceOpenHours,
+            ImageUrl = "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium"
         };
-        await itemRepository.AddAsync(menuItem);
+        await restaurantRepository.AddAsync(spiceNRice);
 
-        Console.WriteLine("Restaurant added successfully!");
+        await itemRepository.AddAsync(new MenuItem { Name = "Butter Chicken", Price = 115.0m, ImageUrl = "https://example.com/butterchicken.jpg", RestaurantId = spiceNRice.Id });
+        await itemRepository.AddAsync(new MenuItem { Name = "Paneer Tikka", Price = 95.0m, ImageUrl = "https://example.com/paneertikka.jpg", RestaurantId = spiceNRice.Id });
+        await itemRepository.AddAsync(new MenuItem { Name = "Lamb Vindaloo", Price = 125.0m, ImageUrl = "https://example.com/lambvindaloo.jpg", RestaurantId = spiceNRice.Id });
 
-        // Retrieve & Display Restaurant Info using Specification
+        // 🍷 La Copita
+        var copitaOpenHours = new OpenHours(new Dictionary<DayOfWeek, OpenHourEntry>
+        {
+            { DayOfWeek.Monday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Tuesday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Wednesday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Thursday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Friday, new OpenHourEntry(new TimeOnly(12, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Saturday, new OpenHourEntry(new TimeOnly(12, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Sunday, new OpenHourEntry(new TimeOnly(12, 0), new TimeOnly(22, 0)) }
+        });
+        var laCopita = new Restaurant
+        {
+            Name = "La Copita",
+            Address = "Stora Brogatan 12, Borås",
+            ContactInfo = "contact@lacopita.se",
+            OpenHours = copitaOpenHours,
+            ImageUrl = "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium"
+        };
+        await restaurantRepository.AddAsync(laCopita);
+
+        await itemRepository.AddAsync(new MenuItem { Name = "Duck à l'Orange", Price = 175.0m, ImageUrl = "https://example.com/duck.jpg", RestaurantId = laCopita.Id });
+        await itemRepository.AddAsync(new MenuItem { Name = "Beef Wellington", Price = 190.0m, ImageUrl = "https://example.com/beefwellington.jpg", RestaurantId = laCopita.Id });
+        await itemRepository.AddAsync(new MenuItem { Name = "Tiramisu", Price = 85.0m, ImageUrl = "https://example.com/tiramisu.jpg", RestaurantId = laCopita.Id });
+
+        // 🍕 Funky Town
+        var funkyOpenHours = new OpenHours(new Dictionary<DayOfWeek, OpenHourEntry>
+        {
+            { DayOfWeek.Monday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Tuesday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Wednesday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Thursday, new OpenHourEntry(new TimeOnly(9, 0), new TimeOnly(22, 0)) },
+            { DayOfWeek.Friday, new OpenHourEntry(new TimeOnly(12, 0), new TimeOnly(22, 0)) }
+        });
+        var funkyTown = new Restaurant
+        {
+            Name = "Funky Town",
+            Address = "Allégatan 33, Borås",
+            ContactInfo = "funky@townpizza.se",
+            OpenHours = funkyOpenHours,
+            ImageUrl = "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium"
+        };
+        await restaurantRepository.AddAsync(funkyTown);
+
+        await itemRepository.AddAsync(new MenuItem { Name = "Funky Special", Price = 110.0m, ImageUrl = "https://example.com/funky.jpg", RestaurantId = funkyTown.Id });
+        await itemRepository.AddAsync(new MenuItem { Name = "Kebab Pizza", Price = 105.0m, ImageUrl = "https://example.com/kebabpizza.jpg", RestaurantId = funkyTown.Id });
+        await itemRepository.AddAsync(new MenuItem { Name = "Hawaii Twist", Price = 99.0m, ImageUrl = "https://example.com/hawaii.jpg", RestaurantId = funkyTown.Id });
+
+        Console.WriteLine("All restaurants and menu items added successfully!");
+
+        // Display
         var savedRestaurants = await restaurantRepository.ListAsync();
 
         foreach (var savedRestaurant in savedRestaurants)
@@ -80,5 +139,6 @@ class Program
                 Console.WriteLine($"  {item.Name} - ${item.Price} ({item.ImageUrl})");
             }
         }
+
     }
 }

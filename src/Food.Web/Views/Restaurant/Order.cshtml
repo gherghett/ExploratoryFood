@@ -130,10 +130,10 @@
                 totalPriceDisplay.textContent = data.pricing.total.toFixed(2);
 
                 // Update hidden fields for form submission
-                hiddenUnitPrice.value = data.pricing.unit;
-                hiddenSum.value = data.pricing.sum;
-                hiddenServiceFee.value = data.pricing.serviceFee;
-                hiddenTotal.value = data.pricing.total;
+                hiddenUnitPrice.value = formatSwedishNumber(data.pricing.unit);
+                hiddenSum.value = formatSwedishNumber(data.pricing.sum);
+                hiddenServiceFee.value = formatSwedishNumber(data.pricing.serviceFee);
+                hiddenTotal.value = formatSwedishNumber(data.pricing.total);
 
             } catch (error) {
                 console.error("Error fetching price:", error);

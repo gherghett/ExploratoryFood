@@ -94,13 +94,11 @@ namespace Food.Core.Migrations
 
             modelBuilder.Entity("Food.Core.Model.MenuItem", b =>
                 {
-                    b.HasOne("Food.Core.Model.Restaurant", "Restaurant")
+                    b.HasOne("Food.Core.Model.Restaurant", null)
                         .WithMany()
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("Food.Core.Model.Order", b =>

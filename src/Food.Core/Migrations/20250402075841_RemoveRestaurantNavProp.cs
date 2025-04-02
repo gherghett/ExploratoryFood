@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Food.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class RemoveRestaurantNavProp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

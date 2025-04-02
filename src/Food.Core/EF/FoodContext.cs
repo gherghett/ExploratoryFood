@@ -129,7 +129,8 @@ public class MenuItem : BaseEntity, IAggregate
 {
     public string Name { get; set; } = null!;
     public int RestaurantId { get; set; }
-    public Restaurant Restaurant { get; set; } = null!;
+
+    // public Restaurant Restaurant { get; set; } = null!; //We dont need this
     public decimal Price { get; set; }
     public string ImageUrl { get; set; } = null!;
 }
@@ -188,8 +189,8 @@ public class FoodDeliveryContext : DbContext
 
 
         modelBuilder.Entity<MenuItem>()
-            .HasOne(m => m.Restaurant)
-            .WithMany() //We dont need the nav property
+            .HasOne<Restaurant>() // Shadow navigation only
+            .WithMany()             // We dont need the nav property
             .HasForeignKey(m => m.RestaurantId);
 
 
@@ -208,8 +209,9 @@ public class FoodDeliveryContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        //remove comment out when migrating, or when using project prom outside
-        //optionsBuilder.UseSqlite("Data Source=localdb.db");
+        // this should be commented out except when migrating or running core program.cs
+        //  when using project prom outside it should be commented out - ie removed
+        // optionsBuilder.UseSqlite("Data Source=localdb.db");
 
         base.OnConfiguring(optionsBuilder);
     }

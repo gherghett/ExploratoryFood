@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Food.Core.Migrations
 {
     [DbContext(typeof(FoodDeliveryContext))]
-    [Migration("20250314161311_Init")]
-    partial class Init
+    [Migration("20250402075841_RemoveRestaurantNavProp")]
+    partial class RemoveRestaurantNavProp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,13 +97,11 @@ namespace Food.Core.Migrations
 
             modelBuilder.Entity("Food.Core.Model.MenuItem", b =>
                 {
-                    b.HasOne("Food.Core.Model.Restaurant", "Restaurant")
+                    b.HasOne("Food.Core.Model.Restaurant", null)
                         .WithMany()
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("Food.Core.Model.Order", b =>

@@ -16,7 +16,7 @@ public class GetMenuItemByIdQueryHandler : IRequestHandler<GetMenuItemByIdQuery,
     {
         var item = await _itemRepository.GetByIdAsync(request.MenuItemId);
         return new MenuItemViewModel {
-            Id = item.Id,
+            Id = item!.Id,
             Name = item.Name,
             Price = item.Price,
             ImageUrl = item.ImageUrl,

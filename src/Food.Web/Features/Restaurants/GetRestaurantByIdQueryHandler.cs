@@ -18,7 +18,7 @@ public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQu
     {
         var restaurant = await _restaurantRepository.GetByIdAsync(request.RestaurantId);
         return new RestaurantDetailsViewModel {
-            Id = restaurant.Id,
+            Id = restaurant!.Id,
             Name = restaurant.Name,
             ContactInfo = restaurant.ContactInfo,
             ImageUrl = restaurant.ImageUrl,

@@ -24,8 +24,9 @@ public class RestaurantController : Controller
 
     public async Task<ActionResult> Order(int id)
     {
-        ViewData["Restaurant"] = await _mediator.Send(new GetRestaurantByIdQuery(id));
-        ViewData["MenuItem"] = await _mediator.Send(new GetMenuItemByIdQuery(id));
+        var item  = await _mediator.Send(new GetMenuItemByIdQuery(id));
+        ViewData["MenuItem"]  = await _mediator.Send(new GetMenuItemByIdQuery(id));
+        ViewData["Restaurant"] = await _mediator.Send(new GetRestaurantByMenuItemIdQuery(id));
         return View();
     }
 

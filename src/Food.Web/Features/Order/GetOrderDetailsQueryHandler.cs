@@ -29,8 +29,8 @@ public class GetOrderDetailsQueryHandler : IRequestHandler<GetOrderDetailsQuery,
     {
         var order = await _orderRepository.GetByIdAsync(request.OrderId);
         var item = await _itemRepository.GetByIdAsync(order!.OrderDetails.MenuItemId);
-        var restaurant = await _restaurantRepository.GetByIdAsync(item.RestaurantId);
-        var orderDetails = OrderDetailsViewModel.FromOrder(order, restaurant, item);
+        var restaurant = await _restaurantRepository.GetByIdAsync(item!.RestaurantId);
+        var orderDetails = OrderDetailsViewModel.FromOrder(order, restaurant!, item);
         return orderDetails;
     }
 }

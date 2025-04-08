@@ -18,7 +18,7 @@ Obligatorisk självständig inlämningsuppgift för **BY-SUVNET OOP2**
 - [x] Jag har läst instruktionerna noggrant.
 - [x] Jag har ställt frågor om det är något som är otydligt.
 - [x] Jag har tagit bort oanvänd kod. 🦤
-- [ ] Jag har tagit bort onödiga kommentarer. 🗿
+- [x] Jag har tagit bort onödiga kommentarer. 🗿 hoppas det iaf
 - [x] Jag har formaterat min kod fint. ```>:)```
 - [x] Jag har förstått hur min kod fungerar. 🫠
   *Prova att förklara högt för dig själv vad din kod gör. Fråga dig t.ex.: "Hur går det till när jag lägger en order?" eller "Vad händer om jag försöker göra funktion X?"*
@@ -83,9 +83,7 @@ API:et ska fungera som ett administrationsverktyg (investeraren har för närvar
 OBS SAMTLIGA SKA BOCKAS
 Funktioner via REST API:
 - [x] **Registrera** nya restauranger.
-
 - [x] **Lägga till** maträtter till restaurangers menyer.
-
 - [x] **Hämta** en lista på alla ordrar.
 - [x] **Hämta** en lista på ordrar med en specifik status (t.ex. alla ordrar som väntar på ett bud) och för en specifik restaurang.
 - [x] **Ändra orderstatus** på en order.
@@ -112,7 +110,7 @@ Funktioner via REST API:
 
 ### Bud
 - Ett bud kan bara acceptera en order om:
-  - [ ] Inget annat bud har accepterat den redan. (note: Detta är implicit sant just nu)
+  - [/] Inget annat bud har accepterat den redan. (note: Detta är implicit sant just nu)
   - [x] Orderstatus är `confirmed`.
 
 ---
@@ -194,5 +192,5 @@ Projektet skall ha ett eller två separata test-projekt som innehåller enhets- 
 
 ### För VG
 - [x] Använd en mock i ett enhetstest (IClock)
-- [ ] Skriv ett enhetstest som syftar till att skydda en domäninvariant (protect domain invariants)
+- [x] Skriv ett enhetstest som syftar till att skydda en domäninvariant (protect domain invariants)
 - [x] Konfigurera databasen i integrationstestet så att det inte är den riktiga databasen som används

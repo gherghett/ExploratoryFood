@@ -95,6 +95,36 @@ namespace Food.Core.Migrations
                     b.ToTable("Restaurants");
                 });
 
+            modelBuilder.Entity("Food.Core.Model.Runner", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ActiveOrderId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActiveOrderId");
+
+                    b.ToTable("Runners");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1
+                        },
+                        new
+                        {
+                            Id = 2
+                        },
+                        new
+                        {
+                            Id = 3
+                        });
+                });
+
             modelBuilder.Entity("Food.Core.Model.MenuItem", b =>
                 {
                     b.HasOne("Food.Core.Model.Restaurant", null)
@@ -211,6 +241,13 @@ namespace Food.Core.Migrations
 
                     b.Navigation("OpenHours")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Food.Core.Model.Runner", b =>
+                {
+                    b.HasOne("Food.Core.Model.Order", null)
+                        .WithMany()
+                        .HasForeignKey("ActiveOrderId");
                 });
 #pragma warning restore 612, 618
         }

@@ -19,16 +19,24 @@ public abstract class BaseEntity
 // Marker interface for aggregates
 public interface IAggregate { }
 
-// OrderStatus Enum
+// Aggregate Root for deliverymen (Runners)
+
+public class Runner : BaseEntity, IAggregate
+{
+    public int? ActiveOrderId {get; set;}
+}
+
 public enum OrderStatus
 {
-    Pending,
-    Accepted,
-    Prepared,
-    OnWay,
-    Delivered,
-    Canceled
+    Received,
+    Confirmed,
+    CourierAccepted,
+    Preparing,
+    ReadyForPickup,
+    InTransit,
+    Delivered
 }
+
 
 // Value Object for Open Hours
 [JsonConverter(typeof(OpenHoursJsonConverter))]
@@ -162,7 +170,7 @@ public class Order : BaseEntity, IAggregate
     public CustomerInfo CustomerInfo { get; set; } = null!;
     public OrderInfo OrderDetails { get; set; } = null!; // TODO Why 2 different names?
     public string DeliveryInstructions { get; set; } = null!;
-    public OrderStatus Status { get; set;} = OrderStatus.Pending;
+    public OrderStatus Status { get; set;} = OrderStatus.Received;
 
     public TimeSpan? TimeRemaining()
     {
@@ -180,6 +188,7 @@ public class FoodDeliveryContext : DbContext
     public DbSet<Restaurant> Restaurants { get; set; }
     public DbSet<MenuItem> MenuItems { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<Runner> Runners {get; set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -207,6 +216,17 @@ public class FoodDeliveryContext : DbContext
                             ?? new Dictionary<DayOfWeek, OpenHourEntry>()
                     );
             });
+        
+        modelBuilder.Entity<Runner>()
+            .HasOne<Order>() //No navigation
+            .WithMany()
+            .HasForeignKey(r => r.ActiveOrderId);
+
+        modelBuilder.Entity<Runner>().HasData(
+            new Runner { Id = 1, ActiveOrderId = null },
+            new Runner { Id = 2, ActiveOrderId = null },
+            new Runner { Id = 3, ActiveOrderId = null } 
+        );
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

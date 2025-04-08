@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Food.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class RunnerHasData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,6 +57,24 @@ namespace Food.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Runners",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ActiveOrderId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Runners", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Runners_Orders_ActiveOrderId",
+                        column: x => x.ActiveOrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MenuItems",
                 columns: table => new
                 {
@@ -76,10 +96,25 @@ namespace Food.Core.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Runners",
+                columns: new[] { "Id", "ActiveOrderId" },
+                values: new object[,]
+                {
+                    { 1, null },
+                    { 2, null },
+                    { 3, null }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_MenuItems_RestaurantId",
                 table: "MenuItems",
                 column: "RestaurantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Runners_ActiveOrderId",
+                table: "Runners",
+                column: "ActiveOrderId");
         }
 
         /// <inheritdoc />
@@ -89,10 +124,13 @@ namespace Food.Core.Migrations
                 name: "MenuItems");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Runners");
 
             migrationBuilder.DropTable(
                 name: "Restaurants");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
         }
     }
 }

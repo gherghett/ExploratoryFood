@@ -88,8 +88,8 @@ Funktioner via REST API:
 
 - [x] **Hämta** en lista på alla ordrar.
 - [x] **Hämta** en lista på ordrar med en specifik status (t.ex. alla ordrar som väntar på ett bud) och för en specifik restaurang.
-- [ ] **Ändra orderstatus** på en order.
-- [ ] **Tilldela** en viss order till ett specifikt bud.
+- [x] **Ändra orderstatus** på en order.
+- [x] **Tilldela** en viss order till ett specifikt bud.
 
 ---
 
@@ -106,13 +106,13 @@ Funktioner via REST API:
   - [x] Restaurangen är öppen.
   - [ ] Ordern läggs innan "Tid för sista beställning".
 
-- [ ] **Orderstatus** ska följa följande flöde:
+- [x] **Orderstatus** ska följa följande flöde:
   - `received` → `confirmed` → `courier_accepted` → `preparing` → `ready_for_pickup` → `in_transit` → `delivered`.
 
 ### Bud
 - Ett bud kan bara acceptera en order om:
-  - [ ] Inget annat bud har accepterat den redan.
-  - [ ] Orderstatus är `confirmed`.
+  - [x] Inget annat bud har accepterat den redan.
+  - [x] Orderstatus är `confirmed`.
 
 ---
 

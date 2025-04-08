@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Food.Core.Migrations
 {
     [DbContext(typeof(FoodDeliveryContext))]
-    [Migration("20250408060157_Init")]
-    partial class Init
+    [Migration("20250408080322_RunnerHasData")]
+    partial class RunnerHasData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,6 +96,36 @@ namespace Food.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Restaurants");
+                });
+
+            modelBuilder.Entity("Food.Core.Model.Runner", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ActiveOrderId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActiveOrderId");
+
+                    b.ToTable("Runners");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1
+                        },
+                        new
+                        {
+                            Id = 2
+                        },
+                        new
+                        {
+                            Id = 3
+                        });
                 });
 
             modelBuilder.Entity("Food.Core.Model.MenuItem", b =>
@@ -214,6 +244,13 @@ namespace Food.Core.Migrations
 
                     b.Navigation("OpenHours")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Food.Core.Model.Runner", b =>
+                {
+                    b.HasOne("Food.Core.Model.Order", null)
+                        .WithMany()
+                        .HasForeignKey("ActiveOrderId");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,7 +4,6 @@ using Food.Core.Model;
 
 namespace UnitTests;
 
-
 public class OpenHoursTest
 {
     private class SettableClock(SettableClock.TimeObject timeObject) : IClock

@@ -17,10 +17,10 @@ Obligatorisk självständig inlämningsuppgift för **BY-SUVNET OOP2**
 ## Checklista för inlämning
 - [x] Jag har läst instruktionerna noggrant.
 - [x] Jag har ställt frågor om det är något som är otydligt.
-- [ ] Jag har tagit bort oanvänd kod.
-- [ ] Jag har tagit bort onödiga kommentarer.
-- [ ] Jag har formaterat min kod fint.
-- [ ] Jag har förstått hur min kod fungerar.  
+- [ ] Jag har tagit bort oanvänd kod. 🦤
+- [ ] Jag har tagit bort onödiga kommentarer. 🗿
+- [ ] Jag har formaterat min kod fint. ```>:)```
+- [ ] Jag har förstått hur min kod fungerar. 🫠
   *Prova att förklara högt för dig själv vad din kod gör. Fråga dig t.ex.: "Hur går det till när jag lägger en order?" eller "Vad händer om jag försöker göra funktion X?"*
 - [ ] Jag har checkat av vilka funktionskrav jag anser att jag klarat genom att skriva ett x innanför [ ] i denna readmefil.
 
@@ -31,7 +31,7 @@ Obligatorisk självständig inlämningsuppgift för **BY-SUVNET OOP2**
 ### För G
 - [x] Användning av **Asp.Net**, **EF Core** och **SQLite**.
 - [x] Samtliga krav för hemsidan är uppfyllda.
-- [ ] Samtliga krav för REST-APIet är uppfyllda.
+- [x] Samtliga krav för REST-APIet är uppfyllda.
 - [x] Minst 2 av 4 systemregler implementerade.
 - [ ] Checklista för inlämning (se ovan) har genomförts.
 
@@ -71,7 +71,7 @@ Besökare ska kunna:
 - [x] **Välja en maträtt** som ska beställas samt ange antal.
 - [x] **Lägga en order** på vald maträtt, där totalpriset visas (summan för maten plus leveransavgift plus 5% serviceavgift).
 - [x] **Se status för ordern** och 
-- [ ] se hur lång tid det är kvar innan den levereras.
+- [x] se hur lång tid det är kvar innan den levereras. (OBS uträkingen är inte så bra)
 
 ---
 
@@ -167,7 +167,7 @@ Sen är API:et ett separat projekt.
 
 ## Tips
 
-- Angrip projektet **lugnt och metodiskt** – gör inte allt på en gång!
+- Angrip projektet **~~lugnt~~ och metodiskt** – gör inte allt på en gång!
 - Analysera kravspecifikationen och identifiera vilka objekt du behöver. Tänk på de tidigare övningarna med att analysera substantiv och verb.
 - Det är okej att skapa extra endpoints och klasser utöver de som beskrivs, men ovanstående är **minimumkrav**.
 - Se detta som ett **uppdrag från en kund** snarare än en vanlig inlämningsuppgift.  
@@ -189,7 +189,7 @@ Projektet skall ha ett eller två separata test-projekt som innehåller enhets- 
 
 ### För G
 - [x] Gör minst ett enhetstest på något i applikationens kärna
-- [ ]Testa API-endpointen för att hämta alla ordrar, med hjälp av ett integrationstest
+- [x] Testa API-endpointen för att hämta alla ordrar, med hjälp av ett integrationstest
 
 ### För VG
 - [ ] Använd en mock i ett enhetstest

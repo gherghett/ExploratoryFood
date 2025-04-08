@@ -106,12 +106,13 @@ Funktioner via REST API:
   - [x] Restaurangen är öppen.
   - [ ] Ordern läggs innan "Tid för sista beställning".
 
-- [x] **Orderstatus** ska följa följande flöde:
+- [x] **Orderstatus** ska följa följande flöde: 
   - `received` → `confirmed` → `courier_accepted` → `preparing` → `ready_for_pickup` → `in_transit` → `delivered`.
+  Detta sker i OrderService inte i modellen för tillfället
 
 ### Bud
 - Ett bud kan bara acceptera en order om:
-  - [x] Inget annat bud har accepterat den redan.
+  - [ ] Inget annat bud har accepterat den redan. (note: Detta är implicit sant just nu)
   - [x] Orderstatus är `confirmed`.
 
 ---

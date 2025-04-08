@@ -11,4 +11,5 @@ innan testing börjar, osså får test byggas i samband med att api:et expandera
 Det är lite buggigt med pris-kalkylationen när man ska köpa ngt, priset uppdataeras inte nödvändigtvis om man går fram och tillbaka i webbläsaren, detta kommer inte fixas tror jag
 
 Nästa: göra alla obligatoriska API-endpoints.
-Authentisering är ett "extra-krav"
+
+[ ] i Web kan man lägga ordrar utanför öppettiderna, kanske hindra i vyn där man ser menu:n

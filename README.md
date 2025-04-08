@@ -87,7 +87,7 @@ Funktioner via REST API:
 - [x] **Lägga till** maträtter till restaurangers menyer.
 
 - [x] **Hämta** en lista på alla ordrar.
-- [ ] **Hämta** en lista på ordrar med en specifik status (t.ex. alla ordrar som väntar på ett bud) och för en specifik restaurang.
+- [x] **Hämta** en lista på ordrar med en specifik status (t.ex. alla ordrar som väntar på ett bud) och för en specifik restaurang.
 - [ ] **Ändra orderstatus** på en order.
 - [ ] **Tilldela** en viss order till ett specifikt bud.
 

@@ -11,7 +11,7 @@ public class AddRestaurant {
     public class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app) 
-         => app.MapPost("/restaurant/create/", Handle)
+         => app.MapPost("/restaurants/create/", Handle)
             .WithName("AddRestaurant")
             .WithOpenApi();
             // .Produces<AddRestaurantResponse>(StatusCodes.Status201Created)

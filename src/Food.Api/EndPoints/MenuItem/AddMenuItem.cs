@@ -11,7 +11,7 @@ public class AddMenuItem {
     public class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app) 
-         => app.MapPost("/menu-item/create/", Handle)
+         => app.MapPost("/menu-items/create/", Handle)
             .WithName("AddMenuItem")
             .WithOpenApi();
             // .Produces<AddRestaurantResponse>(StatusCodes.Status201Created)

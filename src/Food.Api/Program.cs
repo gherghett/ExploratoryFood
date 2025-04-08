@@ -14,7 +14,6 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Swagger
         builder.Services.AddEndpointsApiExplorer(); // Required for Minimal APIs
         builder.Services.AddSwaggerGen(options =>
         {
@@ -28,7 +27,7 @@ public class Program
         builder.Services.AddDbContext<FoodDeliveryContext>(options =>
         options.UseSqlite("Data Source=../Food.Core/localdb.db"));
 
-        // Service layer services
+        // ----------------------Service layer services
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         builder.Services.AddScoped<OrderService>();
         builder.Services.AddScoped<RestaurantService>();
@@ -61,8 +60,8 @@ public class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-        app.UseSwagger(); // Enables Swagger
-        app.UseSwaggerUI(); // Enables Swagger UI
+            app.UseSwagger(); // Enables Swagger
+            app.UseSwaggerUI(); // Enables Swagger UI
         }
 
         // Actually use the cors policy eralier defined

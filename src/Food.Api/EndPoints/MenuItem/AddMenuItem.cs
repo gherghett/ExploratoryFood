@@ -14,8 +14,6 @@ public class AddMenuItem {
          => app.MapPost("/menu-items/create/", Handle)
             .WithName("AddMenuItem")
             .WithOpenApi();
-            // .Produces<AddRestaurantResponse>(StatusCodes.Status201Created)
-            // .Produces(StatusCodes.Status404NotFound);
         public async Task<IResult> Handle
         (
             [FromServices] IRepository<MenuItem> itemRepository,

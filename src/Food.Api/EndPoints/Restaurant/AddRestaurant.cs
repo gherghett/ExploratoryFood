@@ -14,8 +14,6 @@ public class AddRestaurant {
          => app.MapPost("/restaurants/create/", Handle)
             .WithName("AddRestaurant")
             .WithOpenApi();
-            // .Produces<AddRestaurantResponse>(StatusCodes.Status201Created)
-            // .Produces(StatusCodes.Status404NotFound);
         public async Task<IResult> Handle
         (
             [FromServices] RestaurantService restaurantService,

@@ -16,4 +16,8 @@
     <ProjectReference Include="../Food.Core/Food.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="IntegrationTests" />
+  </ItemGroup>
+
 </Project>

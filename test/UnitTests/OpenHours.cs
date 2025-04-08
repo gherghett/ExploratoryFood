@@ -132,11 +132,11 @@ public class OpenHoursTest
         };
 
         // Act & Assert: Expecting deserialization to fail just like in the API
-        var exception = Assert.Throws<InvalidOperationException>(() =>
+        var exception = Assert.Throws<System.Text.Json.JsonException>(() =>
         {
             JsonSerializer.Deserialize<OpenHours>(invalidJson, options);
         });
 
-        Assert.Contains("must bind to an object property or field", exception.Message);
+        Assert.Contains("Invalid key", exception.Message);
     }
 }

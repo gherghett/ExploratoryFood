@@ -17,7 +17,7 @@ Obligatorisk självständig inlämningsuppgift för **BY-SUVNET OOP2**
 ## Checklista för inlämning
 - [x] Jag har läst instruktionerna noggrant.
 - [x] Jag har ställt frågor om det är något som är otydligt.
-- [ ] Jag har tagit bort oanvänd kod. 🦤
+- [x] Jag har tagit bort oanvänd kod. 🦤
 - [ ] Jag har tagit bort onödiga kommentarer. 🗿
 - [ ] Jag har formaterat min kod fint. ```>:)```
 - [ ] Jag har förstått hur min kod fungerar. 🫠

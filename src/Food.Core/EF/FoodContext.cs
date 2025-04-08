@@ -172,12 +172,13 @@ public class Order : BaseEntity, IAggregate
     public string DeliveryInstructions { get; set; } = null!;
     public OrderStatus Status { get; set;} = OrderStatus.Received;
 
-    public TimeSpan? TimeRemaining()
+    // TODO this quite naively always sets the time remaining as one hour into the future
+    public TimeSpan TimeRemaining()
     {
         var delivery_time = CreationDate.AddHours(1);
         var remaining = delivery_time - DateTime.Now;
         if( remaining <= TimeSpan.Zero )
-            return null;
+            return TimeSpan.Zero;
         return remaining;
     }
 }

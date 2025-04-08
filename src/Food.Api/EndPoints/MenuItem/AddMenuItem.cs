@@ -26,7 +26,7 @@ public class AddMenuItem {
             {
                 return Results.NotFound();
             }
-            return Results.Created($"/menu-item/{item.Id}", item); //TODO this address does not exist
+            return Results.Created($"/menu-items/{item.Id}", item); //TODO this address does not exist
         }
 
     }

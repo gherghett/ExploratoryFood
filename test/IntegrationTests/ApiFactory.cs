@@ -12,7 +12,12 @@ public class ApiFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(services =>
         {
-            var dbPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../../../../src/Food.Core/localdb.db"));
+            //real database
+            // var dbPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../../../../src/Food.Core/localdb.db"));
+
+            // copy of datebase inside test project
+            var dbPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../../localdb.db"));
+
             Console.WriteLine(dbPath);
             if (!File.Exists(dbPath))
             {

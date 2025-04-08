@@ -14,6 +14,10 @@ public class OpenHourEntry
 
     public OpenHourEntry(TimeOnly open, TimeOnly close)
     {
+        if( open >= close)
+        {
+            throw new ArgumentException("OpenHoursEntry cannot open before or at the same thime it closes");
+        }
         Open = open;
         Close = close;
     }

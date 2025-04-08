@@ -17,6 +17,7 @@ public class AddOrderQueryHandler : IRequestHandler<AddOrderQuery, int>
     public async Task<int> Handle(AddOrderQuery request, CancellationToken cancellationToken)
     {
         var orderResult = await _orderService.PlaceOrder(
+            request.NewOrder.RestaurantId,
             request.NewOrder.MenuItemId, 
             request.NewOrder.Quantity,
             request.NewOrder.ExtraInstructions ?? "",
@@ -28,7 +29,7 @@ public class AddOrderQueryHandler : IRequestHandler<AddOrderQuery, int>
             request.NewOrder.DeliveryInstructions ?? "",
             request.NewOrder.ExpectedPricing);
 
-        if(!orderResult.TryGet(out var order))
+        if(!orderResult.TryGet(out var order)) //TODO does not propagate the errors
             return 0;
         
         return order.Id;

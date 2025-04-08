@@ -11,6 +11,7 @@ public class NewOrder
 
     public string? ExtraInstructions {get; set;}
 
+    public int RestaurantId {get; set;}
     public int MenuItemId {get; set;}
     public int Quantity {get; set;}
     public string? DeliveryInstructions {get; set;}

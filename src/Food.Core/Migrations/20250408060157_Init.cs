@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Food.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class RemoveRestaurantNavProp : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,6 +17,7 @@ namespace Food.Core.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    RestaurantId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CustomerInfo_Name = table.Column<string>(type: "TEXT", nullable: false),
                     CustomerInfo_Address = table.Column<string>(type: "TEXT", nullable: false),

@@ -28,6 +28,8 @@
             <h4>Order Now</h4>
             <form method="post" action="/Order/New">
                 <input type="hidden" name="MenuItemId" value="@menuItem.Id" />
+                <input type="hidden" name="RestaurantId" value="@restaurant.Id" />
+
 
                 <div class="mb-3">
                     <label for="Name" class="form-label">Name</label>

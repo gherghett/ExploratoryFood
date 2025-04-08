@@ -146,6 +146,7 @@ public class CustomerInfo
 // Value Object for Order Info
 public class OrderInfo
 {
+    //TODO why is there no quantity here?
     public int MenuItemId { get; set; }
     public string MenuItemName { get; set; } = null!;
     // public int RestaurantId {get; set;}
@@ -156,9 +157,10 @@ public class OrderInfo
 // Order Aggregate Root
 public class Order : BaseEntity, IAggregate
 {
+    public int RestaurantId {get; set;}
     public DateTime CreationDate {get; set;} = DateTime.Now;
     public CustomerInfo CustomerInfo { get; set; } = null!;
-    public OrderInfo OrderDetails { get; set; } = null!;
+    public OrderInfo OrderDetails { get; set; } = null!; // TODO Why 2 different names?
     public string DeliveryInstructions { get; set; } = null!;
     public OrderStatus Status { get; set;} = OrderStatus.Pending;
 
@@ -216,7 +218,7 @@ public class FoodDeliveryContext : DbContext
         base.OnConfiguring(optionsBuilder);
     }
 
-    // For design time operations
+    // For design time operationsdotnet
     public FoodDeliveryContext() { }
 
     public FoodDeliveryContext(DbContextOptions<FoodDeliveryContext> options) : base(options)

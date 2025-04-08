@@ -70,7 +70,8 @@ Besökare ska kunna:
 - [x] **Se restaurangers menyer**.
 - [x] **Välja en maträtt** som ska beställas samt ange antal.
 - [x] **Lägga en order** på vald maträtt, där totalpriset visas (summan för maten plus leveransavgift plus 5% serviceavgift).
-- [x] **Se status för ordern** och hur lång tid det är kvar innan den levereras.
+- [x] **Se status för ordern** och 
+- [ ] se hur lång tid det är kvar innan den levereras.
 
 ---
 
@@ -82,8 +83,10 @@ API:et ska fungera som ett administrationsverktyg (investeraren har för närvar
 OBS SAMTLIGA SKA BOCKAS
 Funktioner via REST API:
 - [x] **Registrera** nya restauranger.
-- [ ] **Lägga till** maträtter till restaurangers menyer.
-- [ ] **Hämta** en lista på alla ordrar.
+
+- [x] **Lägga till** maträtter till restaurangers menyer.
+
+- [x] **Hämta** en lista på alla ordrar.
 - [ ] **Hämta** en lista på ordrar med en specifik status (t.ex. alla ordrar som väntar på ett bud) och för en specifik restaurang.
 - [ ] **Ändra orderstatus** på en order.
 - [ ] **Tilldela** en viss order till ett specifikt bud.

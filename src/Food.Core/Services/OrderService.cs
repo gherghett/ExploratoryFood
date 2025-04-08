@@ -19,6 +19,7 @@ public class OrderService
     }
 
     public async Task<Result<Order>> PlaceOrder(
+        int restaurantId,
         int menuItemId, 
         int quantity,
         string extraInstructions,
@@ -50,6 +51,7 @@ public class OrderService
         };
 
         var order = new Order {
+            RestaurantId = restaurantId,
             OrderDetails = orderInfo,
             CustomerInfo = customerInfo,
             DeliveryInstructions = deliveryInstructions
@@ -68,19 +70,9 @@ public class OrderService
         return new Pricing(unit: unitPrice, sum: sum, serviceFee: serviceFee, total: total);
     }
 
-    // public class OrderInfo
-    // {
-    //     public int MenuItemId { get; set; }
-    //     public string MenuItemName { get; set; } = null!;
-    //     public decimal Price { get; set; }
-    //     public string ExtraInstructions { get; set; } = null!;
-    // }
-
     public async Task<OrderStatus?> ChangeStatus(int OrderId, OrderStatus newStatus)
     {
         var order = await _orderRepository.GetByIdAsync(OrderId);
-        // if( order is null)
-        //     return null;
         return null;
     }
 }

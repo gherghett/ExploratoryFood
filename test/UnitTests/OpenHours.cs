@@ -139,4 +139,18 @@ public class OpenHoursTest
 
         Assert.Contains("Invalid key", exception.Message);
     }
+
+    //Invariant test
+    [Fact]
+    public void CannotCreateOpenHourEntryWithOpenTimeAfterCloseTime()
+    {
+        // Arrange
+        var open = new TimeOnly(22, 0); // 22:00
+        var close = new TimeOnly(9, 0); // 09:00
+
+        // Act & Assert
+        var ex = Assert.Throws<ArgumentException>(() => new OpenHourEntry(open, close));
+        Assert.Contains("cannot open before", ex.Message);
+    }
+
 }

@@ -5,9 +5,9 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.Web", "\home\daniel\projekt\csharp\FoodoraVlone\exploratorysln\src\Food.Web\Food.Web.csproj", "{5F8AD946-FF82-41DF-52FF-2C71C5863887}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.Web", "src\Food.Web\Food.Web.csproj", "{5F8AD946-FF82-41DF-52FF-2C71C5863887}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.Core", "\home\daniel\projekt\csharp\FoodoraVlone\exploratorysln\src\Food.Core\Food.Core.csproj", "{0AD4B4A4-48C7-209E-41BB-5F05E723BA1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.Core", "src\Food.Core\Food.Core.csproj", "{0AD4B4A4-48C7-209E-41BB-5F05E723BA1E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.Api", "src\Food.Api\Food.Api.csproj", "{5F5D2980-8981-4EA5-A3CE-11A62C34008A}"
 EndProject
